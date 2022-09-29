@@ -8,7 +8,7 @@ import User from './pages/User';
 import Login from './pages/Login';
 import NotFound from './pages/Page404';
 import Register from './pages/Register';
-import Products from './pages/Products';
+import Products from './pages/ProductsPaginated';
 import DashboardApp from './pages/DashboardApp';
 
 // ----------------------------------------------------------------------
