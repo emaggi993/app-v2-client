@@ -5,9 +5,11 @@ import { Box, Card, Link, Typography, Stack } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
+import { fFloat, fRenderImageBlob } from '../../../utils/utils';
 // components
 import Label from '../../../components/Label';
 import { ColorPreview } from '../../../components/color-utils';
+
 
 // ----------------------------------------------------------------------
 
@@ -26,7 +28,8 @@ ShopProductCard.propTypes = {
 };
 
 export default function ShopProductCard({ product }) {
-  const { name, cover, price, colors, status, priceSale } = product;
+  const { descripcion, precio, colors, status, existencia } = product;
+  const blobImagen = product.blob_imagen;
 
   return (
     <Card>
@@ -46,18 +49,18 @@ export default function ShopProductCard({ product }) {
             {status}
           </Label>
         )}
-        <ProductImgStyle alt={name} src={cover} />
+        <ProductImgStyle alt={descripcion} src={fRenderImageBlob(blobImagen)} />
       </Box>
 
       <Stack spacing={2} sx={{ p: 3 }}>
         <Link to="#" color="inherit" underline="hover" component={RouterLink}>
           <Typography variant="subtitle2" noWrap>
-            {name}
+            {descripcion}
           </Typography>
         </Link>
 
         <Stack direction="row" alignItems="center" justifyContent="space-between">
-          <ColorPreview colors={colors} />
+          
           <Typography variant="subtitle1">
             <Typography
               component="span"
@@ -67,10 +70,10 @@ export default function ShopProductCard({ product }) {
                 textDecoration: 'line-through',
               }}
             >
-              {priceSale && fCurrency(priceSale)}
+              {existencia}
             </Typography>
             &nbsp;
-            {fCurrency(price)}
+            {fFloat(precio)}
           </Typography>
         </Stack>
       </Stack>
