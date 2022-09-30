@@ -63,8 +63,12 @@ export default function ProductsPaginated() {
         </Stack>
 
         <ProductList products={products} />
-        <Pagination onChange={(e, p)=>handlerChangePage(e, p)} page={currentPage} count={data.total} color="primary" />
-        <ProductCartWidget />
+        <Pagination style={{
+        marginTop:"20px",
+        display: "flex",
+        justifyContent: "Center"
+    }} onChange={(e, p)=>handlerChangePage(e, p)} page={currentPage} count={data.total} color="primary" />
+        
       </Container>
     </Page>
   );
