@@ -26,7 +26,7 @@ export const SORT_BY_OPTIONS = [
   { value: 'priceDesc', label: 'Precio: Alto-Bajo' },
   { value: 'priceAsc', label: 'Precio: Bajo-Alto' },
 ];
-export const FILTER_CATEGORY_OPTIONS = ['Accesorios', 'Herramientas', 'Medicinal'];
+export const FILTER_CATEGORY_OPTIONS = ['General', 'Herramientas', 'Medicinal'];
 export const FILTER_DISPONIBILIDAD = ['Todos', 'Disponible', 'Agotado'];
 export const FILTER_RATING_OPTIONS = ['up4Star', 'up3Star', 'up2Star', 'up1Star'];
 export const FILTER_PRICE_OPTIONS = [
@@ -53,7 +53,10 @@ ShopFilterSidebar.propTypes = {
   onCloseFilter: PropTypes.func,
 };
 
-export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter }) {
+export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseFilter, setFiltro }) {
+  const handleFilterChange = (event)=>{
+    setFiltro(event.target.value.toLowerCase())
+  }
   return (
     <>
       <Button disableRipple color="inherit" endIcon={<Iconify icon="ic:round-filter-list" />} onClick={onOpenFilter}>
@@ -81,16 +84,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
 
         <Scrollbar>
           <Stack spacing={3} sx={{ p: 3 }}>
-            <div>
-              <Typography variant="subtitle1" gutterBottom>
-                Disponibilidad
-              </Typography>
-              <FormGroup>
-                {FILTER_DISPONIBILIDAD.map((item) => (
-                  <FormControlLabel key={item} control={<Checkbox />} label={item} />
-                ))}
-              </FormGroup>
-            </div>
+            
 
             <div>
               <Typography variant="subtitle1" gutterBottom>
@@ -98,7 +92,7 @@ export default function ShopFilterSidebar({ isOpenFilter, onOpenFilter, onCloseF
               </Typography>
               <RadioGroup>
                 {FILTER_CATEGORY_OPTIONS.map((item) => (
-                  <FormControlLabel key={item} value={item} control={<Radio />} label={item} />
+                  <FormControlLabel key={item} value={item} control={<Radio onChange={handleFilterChange}/>} label={item} />
                 ))}
               </RadioGroup>
             </div>

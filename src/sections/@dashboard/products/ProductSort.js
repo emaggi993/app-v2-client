@@ -12,22 +12,27 @@ const SORT_BY_OPTIONS = [
   { value: 'priceAsc', label: 'Precio: Bajo-Alto' },
 ];
 
-export default function ShopProductSort() {
+export default function ShopProductSort({setOrderBy}) {
   const [open, setOpen] = useState(null);
-  const [orderBy, setOrderBy] = useState('disponibilidad');
 
 
   const handleOpen = (event) => {
     setOpen(event.currentTarget);
   };
 
-  const handleClose = (option) => {
-    // const {valor} = event.currentTarget.dataset;
-    console.log(option)
-    setOrderBy(option)
-    setOrderBy('disponibilidad');
+  const handleClose = () => {
+    
+    
     setOpen(null);
   };
+  const [orderOption, setOrderOption] = useState('disponible-agotado')
+
+  const handleOrderChange = (option)=>{
+    // console.log(option)
+    setOrderBy(option.value);
+    setOrderOption(option.label)
+    setOpen(null);
+  }
 
   return (
     <>
@@ -39,7 +44,7 @@ export default function ShopProductSort() {
       >
         Ord. por:&nbsp;
         <Typography component="span" variant="subtitle2" sx={{ color: 'text.secondary' }}>
-          Disponible - Agotado
+          {orderOption}
         </Typography>
       </Button>
       <Menu
@@ -54,7 +59,7 @@ export default function ShopProductSort() {
           <MenuItem
             key={option.value}
             selected={option.value === 'disponibilidad'}
-            onClick={()=>handleClose(option.value)}
+            onClick={()=>handleOrderChange(option)}
             sx={{ typography: 'body2' }}
           >
             {option.label}

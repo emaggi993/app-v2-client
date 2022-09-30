@@ -19,6 +19,8 @@ export default function ProductsPaginated() {
   const [data, setData] = useState({})
   const [products, setProducts] = useState([])
   const [currentPage, setCurrentPage] = useState(1);
+  const [orderBy, setOrderBy] = useState('disponibilidad');
+  const [filtro, setFiltro] = useState('general');
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -29,9 +31,9 @@ export default function ProductsPaginated() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
-  const loadProducts= async (page=1) => {
+  const loadProducts= async (page=1, orderBy='disponibilidad', category='general') => {
     Swal.showLoading()
-    await getProductsPagination(page).then(({data}) => {
+    await getProductsPagination(page, orderBy, category).then(({data}) => {
         console.log(data)
         setData(data);
         setProducts(data.data); 
@@ -41,9 +43,9 @@ export default function ProductsPaginated() {
   };
 
   useEffect(() => {
-    loadProducts(currentPage)
+    loadProducts(currentPage, orderBy, filtro)
     
-  },[currentPage]);
+  },[currentPage, orderBy, filtro]);
   return (
     <Page title="Productos">
       <Container>
@@ -57,8 +59,9 @@ export default function ProductsPaginated() {
               isOpenFilter={openFilter}
               onOpenFilter={handleOpenFilter}
               onCloseFilter={handleCloseFilter}
+              setFiltro = {setFiltro}
             />
-            <ProductSort />
+            <ProductSort setOrderBy= {setOrderBy }/>
           </Stack>
         </Stack>
 

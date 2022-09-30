@@ -66,11 +66,11 @@ export default function ShopProductCard({ product }) {
               component="span"
               variant="body1"
               sx={{
-                color: (existencia > 0) ?"green":'red',
-                textDecoration: (existencia > 0) ?"":'line-through',
+                color: (existencia==='disponible') ?"green":'red',
+                textDecoration: (existencia==='disponible') ?"":'line-through',
               }}
             >
-              {(existencia > 0) ?"disponible":"Agotado"}
+              {existencia}
             </Typography>
             &nbsp;
             {fFloat(precio)}
