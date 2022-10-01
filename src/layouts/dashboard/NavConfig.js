@@ -8,7 +8,7 @@ const getIcon = (name) => <Iconify icon={name} width={22} height={22} />;
 const navConfig = [
   
   {
-    title: 'product',
+    title: 'productos',
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
   },

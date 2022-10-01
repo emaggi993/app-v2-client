@@ -4,12 +4,13 @@ import { Container, Stack, Typography, Pagination } from '@mui/material';
 // components
 import Swal from 'sweetalert2';
 import Page from '../components/Page';
-import { ProductSort, ProductList, ProductCartWidget, ProductFilterSidebar } from '../sections/@dashboard/products';
+import { ProductSort, ProductList,  ProductFilterSidebar } from '../sections/@dashboard/products';
 
 // mock
 // import PRODUCTS from '../_mock/products';
 
-import { getProductsPagination } from '../api/products.api';
+import { getProductsPagination, getListaPrecio } from '../api/products.api';
+import ExcelButton from '../components/ExcelButton';
 
 // ----------------------------------------------------------------------
 
@@ -21,6 +22,7 @@ export default function ProductsPaginated() {
   const [currentPage, setCurrentPage] = useState(1);
   const [orderBy, setOrderBy] = useState('disponibilidad');
   const [filtro, setFiltro] = useState('general');
+  const [listaPrecio, setListaPrecio] = useState([])
   const handleOpenFilter = () => {
     setOpenFilter(true);
   };
@@ -31,6 +33,12 @@ export default function ProductsPaginated() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
+  const loadListaPrecios = async ()=>{
+    await getListaPrecio().then(({data}) => {
+      console.log("lista de precios", data)
+      setListaPrecio(data);
+    });
+  }
   const loadProducts= async (page=1, orderBy='disponibilidad', category='general') => {
     Swal.showLoading()
     await getProductsPagination(page, orderBy, category).then(({data}) => {
@@ -46,6 +54,12 @@ export default function ProductsPaginated() {
     loadProducts(currentPage, orderBy, filtro)
     
   },[currentPage, orderBy, filtro]);
+  useEffect(() => {
+    loadListaPrecios()
+  
+    
+  }, [])
+  
   return (
     <Page title="Productos">
       <Container>
@@ -55,6 +69,7 @@ export default function ProductsPaginated() {
 
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
+          <ExcelButton data={listaPrecio} />
             <ProductFilterSidebar
               isOpenFilter={openFilter}
               onOpenFilter={handleOpenFilter}
@@ -64,7 +79,7 @@ export default function ProductsPaginated() {
             <ProductSort setOrderBy= {setOrderBy }/>
           </Stack>
         </Stack>
-
+        
         <ProductList products={products} />
         <Pagination style={{
         marginTop:"20px",

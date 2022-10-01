@@ -7,3 +7,6 @@ export const getProductsPagination= async (page, orderBy='disponibilidad', categ
 export const getAllProducts= async ()=>{
     return axios.get("http://127.0.0.1:4000/productos");
 }
+export const getListaPrecio= async ()=>{
+    return axios.get("http://127.0.0.1:4000/prices_list");
+}
