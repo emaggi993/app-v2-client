@@ -3,8 +3,10 @@ import { useState, useEffect } from 'react';
 import { Container, Stack, Typography, Pagination } from '@mui/material';
 // components
 import Swal from 'sweetalert2';
+import { FloatingWhatsApp } from 'react-floating-whatsapp-button';
 import Page from '../components/Page';
 import { ProductSort, ProductList,  ProductFilterSidebar } from '../sections/@dashboard/products';
+import 'react-floating-whatsapp-button/dist/index.css'
 
 // mock
 // import PRODUCTS from '../_mock/products';
@@ -86,7 +88,7 @@ export default function ProductsPaginated() {
         display: "flex",
         justifyContent: "Center"
     }} onChange={(e, p)=>handlerChangePage(e, p)} page={currentPage} count={data.total} color="primary" />
-        
+        <FloatingWhatsApp phone="595981326177" popupMessage="Bienvenido a Otros repuestos, en que le podemos ayudar?"  headerTitle="Otros Repuestos"/>
       </Container>
     </Page>
   );
