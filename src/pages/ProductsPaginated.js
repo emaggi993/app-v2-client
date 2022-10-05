@@ -5,7 +5,7 @@ import { Container, Stack, Typography, Pagination } from '@mui/material';
 import Swal from 'sweetalert2';
 import { FloatingWhatsApp } from 'react-floating-whatsapp-button';
 import Page from '../components/Page';
-import { ProductSort, ProductList,  ProductFilterSidebar } from '../sections/@dashboard/products';
+import { ProductSort, ProductList,ProductCartWidget,  ProductFilterSidebar } from '../sections/@dashboard/products';
 import 'react-floating-whatsapp-button/dist/index.css'
 
 // mock
@@ -83,6 +83,7 @@ export default function ProductsPaginated() {
         </Stack>
         
         <ProductList products={products} />
+        <ProductCartWidget />
         <Pagination style={{
         marginTop:"20px",
         display: "flex",
