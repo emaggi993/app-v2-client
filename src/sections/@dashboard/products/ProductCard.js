@@ -1,7 +1,8 @@
 import PropTypes from 'prop-types';
 import { Link as RouterLink } from 'react-router-dom';
+import { useContext } from 'react';
 // material
-import { Box, Card, Link, Typography, Stack } from '@mui/material';
+import { Box, Card, Link, Typography, Stack, Button } from '@mui/material';
 import { styled } from '@mui/material/styles';
 // utils
 import { fCurrency } from '../../../utils/formatNumber';
@@ -9,6 +10,7 @@ import { fFloat, fRenderImageBlob } from '../../../utils/utils';
 // components
 import Label from '../../../components/Label';
 import { ColorPreview } from '../../../components/color-utils';
+import { CartContext } from '../../../context/ContextCart';
 
 
 // ----------------------------------------------------------------------
@@ -30,7 +32,7 @@ ShopProductCard.propTypes = {
 export default function ShopProductCard({ product }) {
   const { descripcion, precio, colors, status, existencia } = product;
   const blobImagen = product.blob_imagen;
-
+  const { addItemsToCart } =  useContext(CartContext)
   return (
     <Card>
       <Box sx={{ pt: '100%', position: 'relative' }}>
@@ -75,6 +77,7 @@ export default function ShopProductCard({ product }) {
             &nbsp;
             {fFloat(precio)}
           </Typography>
+          <Button onClick={()=> addItemsToCart(product)}>🛒</Button>
         </Stack>
       </Stack>
     </Card>
