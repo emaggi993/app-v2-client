@@ -44,13 +44,13 @@ export const CartProvider = ({ children }) => {
             );
         }else{
             setcartItems(
-                (productInCart)=>{
+                cartItems.map((productInCart)=>{
                     if(productInCart.id === product.id){
                         return {...inCart, amount: inCart.amount - 1};
                     }
                     return productInCart;
                     
-                }
+                })
             );
         }
     };
