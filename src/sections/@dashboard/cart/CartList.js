@@ -65,8 +65,13 @@ export default function CartList() {
 
   const processRowUpdate = useCallback(
     async (cartItemRow) => {
-      editItemsToCart(cartItemRow)
-      setSnackbar({ children: 'Cantidad cambiada satisfactoriamente', severity: 'success' });
+      const [respuesta, product]= editItemsToCart(cartItemRow)
+      if( respuesta){
+        setSnackbar({ children: 'Cantidad cambiada satisfactoriamente', severity: 'success' });
+
+      }else{
+        setSnackbar({ children: 'No se ha podido cambiar, pruebe de vuelta', severity: 'error' });
+      }
       return cartItemRow;
     },
     [editItemsToCart],

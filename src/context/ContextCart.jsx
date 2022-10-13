@@ -16,7 +16,12 @@ export const CartProvider = ({ children }) => {
         localStorage.setItem("cartProducts", JSON.stringify(cartItems));
     }, [cartItems]);
     const editItemsToCart = (product) => {
-        
+        if (typeof(product.amount) !== 'number'){
+            return [false, product]
+        }
+        if (product.amount < 1){
+            return [false, product]
+        }
         const inCart = cartItems.find(
             (productInCart) => productInCart.id === product.id
         );
@@ -29,8 +34,9 @@ export const CartProvider = ({ children }) => {
                     return productInCart
                 })
             );
+            return [true, product]
         }
-        // return [false, product]
+        return [false, product]
     };
     const addItemsToCart = (product) => {
         const inCart = cartItems.find(
