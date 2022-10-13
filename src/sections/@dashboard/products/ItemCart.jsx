@@ -8,8 +8,8 @@ function ItemCart({cartItem}) {
     <>
     <div>{cartItem.descripcion}</div>
     <div>{cartItem.amount}</div>
-    <Button onClick={()=>addItemsToCart(cartItem)}>add</Button>
-    <Button onClick={()=>deleteItemToCart(cartItem)}>Eliminar</Button>
+    <Button onClick={()=>addItemsToCart(cartItem)}>Añadir</Button>
+    <Button onClick={()=>deleteItemToCart(cartItem)}>Quitar</Button>
     </>
   )
 }

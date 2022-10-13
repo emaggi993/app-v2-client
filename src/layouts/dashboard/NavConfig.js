@@ -12,6 +12,11 @@ const navConfig = [
     path: '/dashboard/products',
     icon: getIcon('eva:shopping-bag-fill'),
   },
+  {
+    title: 'carrito',
+    path: '/dashboard/cart',
+    icon: getIcon('eva:shopping-bag-fill'),
+  },
   
 ];
 
