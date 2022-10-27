@@ -56,12 +56,12 @@ const CartStyle = styled('div')(({ theme }) => ({
 export default function CartWidget() {
   const [cartOpen, setCartOpen] = useState(false);
   const [productLength, setProductLength] = useState(0);
-  const { cartItems } = useContext(CartContext);
+  const { cartItems , total} = useContext(CartContext);
 
   useEffect(() => {
     setProductLength(cartItems.reduce((previous, current) => previous + current.amount, 0));
   }, [cartItems]);
-  const total = cartItems.reduce((previous, current) => previous + current.amount * current.precio, 0);
+  
   return (
     <>
       <RootStyle>

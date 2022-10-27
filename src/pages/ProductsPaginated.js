@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useMemo } from 'react';
 // material
 import { Container, Stack, Typography, Pagination } from '@mui/material';
 // components
 import Swal from 'sweetalert2';
-import { FloatingWhatsApp } from 'react-floating-whatsapp-button';
+
 import Page from '../components/Page';
 import { ProductSort, ProductList,ProductCartWidget,  ProductFilterSidebar } from '../sections/@dashboard/products';
-import 'react-floating-whatsapp-button/dist/index.css'
+
 
 // mock
 // import PRODUCTS from '../_mock/products';
 
-import { getProductsPagination, getListaPrecio } from '../api/products.api';
+import { getProductsPagination, getListaPrecio, getAllProducts } from '../api/products.api';
 import ExcelButton from '../components/ExcelButton';
 
 // ----------------------------------------------------------------------
@@ -37,14 +37,12 @@ export default function ProductsPaginated() {
   };
   const loadListaPrecios = async ()=>{
     await getListaPrecio().then(({data}) => {
-      console.log("lista de precios", data)
       setListaPrecio(data);
     });
   }
   const loadProducts= async (page=1, orderBy='disponibilidad', category='general') => {
     Swal.showLoading()
     await getProductsPagination(page, orderBy, category).then(({data}) => {
-        console.log(data)
         setData(data);
         setProducts(data.data); 
       });
@@ -52,6 +50,21 @@ export default function ProductsPaginated() {
     Swal.close()
   };
 
+  
+  const loadProductsMemo= async (page=1, orderBy='disponibilidad', category='general') => {
+    Swal.showLoading()
+    console.log("loadProductsMemo")
+    await getAllProducts( orderBy).then(({data}) => {
+      console.log(data)
+      return data;
+      // setData(data);
+      // setProducts(data.data); 
+    });
+    // console.log("data", data)
+    Swal.close()
+    
+  };
+  const getProducts = useMemo (()=> loadProductsMemo(), [])
   useEffect(() => {
     loadProducts(currentPage, orderBy, filtro)
     
@@ -68,7 +81,6 @@ export default function ProductsPaginated() {
         <Typography variant="h4" sx={{ mb: 5 }}>
           Productos
         </Typography>
-
         <Stack direction="row" flexWrap="wrap-reverse" alignItems="center" justifyContent="flex-end" sx={{ mb: 5 }}>
           <Stack direction="row" spacing={1} flexShrink={0} sx={{ my: 1 }}>
           <ExcelButton data={listaPrecio} />
@@ -89,7 +101,7 @@ export default function ProductsPaginated() {
         display: "flex",
         justifyContent: "Center"
     }} onChange={(e, p)=>handlerChangePage(e, p)} page={currentPage} count={data.total} color="primary" />
-        <FloatingWhatsApp phone="595981326177" popupMessage="Bienvenido a Otros repuestos, en que le podemos ayudar?"  headerTitle="Otros Repuestos"/>
+        
       </Container>
     </Page>
   );

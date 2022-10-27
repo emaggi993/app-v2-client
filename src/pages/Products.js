@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect , useMemo} from 'react';
 // material
 import { Container, Stack, Typography } from '@mui/material';
 // components
@@ -21,15 +21,20 @@ export default function EcommerceShop() {
   const handleCloseFilter = () => {
     setOpenFilter(false);
   };
-  const loadProducts= async (page=1) => {
-    const {data}= await getProductsPagination(page);
-    setProducts(data.data);
-    console.log(data)
+
+  const getProducts = useMemo (()=> loadProducts, [products])
+  // const loadProducts= async (page=1) => {
+  const loadProducts= async () => {
+    // const {data}= await getProductsPagination(page);
+    console.log("get Products")
+    const {data} = await getAllProducts()
+    console.log(data);
+    return data;
   };
-  useEffect(() => {
-    // Actualiza el título del documento usando la API del navegador
-    loadProducts();
-  });
+  // useEffect(() => {
+  //   // Actualiza el título del documento usando la API del navegador
+  //   loadProducts();
+  // }, []);
   return (
     <Page title="Productos">
       <Container>
@@ -48,7 +53,7 @@ export default function EcommerceShop() {
           </Stack>
         </Stack>
 
-        <ProductList products={products} />
+        <ProductList products={getProducts} />
         <ProductCartWidget />
       </Container>
     </Page>

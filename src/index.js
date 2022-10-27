@@ -10,6 +10,7 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import reportWebVitals from './reportWebVitals';
 import { CartProvider } from './context/ContextCart';
+import { UserProvider } from './context/ContextUser';
 
 // ----------------------------------------------------------------------
 
@@ -17,13 +18,13 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 
 root.render(
   <HelmetProvider>
-    <CartProvider>
-    <BrowserRouter>
-    
-      <App />
-      
-    </BrowserRouter>
-    </CartProvider>
+    <UserProvider>
+      <CartProvider>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </CartProvider>
+    </UserProvider>
   </HelmetProvider>
 );
 
