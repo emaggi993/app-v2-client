@@ -1,4 +1,5 @@
 import { useState, useEffect, useMemo } from 'react';
+
 // material
 import { Container, Stack, Typography, Pagination } from '@mui/material';
 // components
@@ -17,7 +18,7 @@ import ExcelButton from '../components/ExcelButton';
 // ----------------------------------------------------------------------
 
 export default function ProductsPaginated() {
-    
+  
   const [openFilter, setOpenFilter] = useState(false);
   const [data, setData] = useState({})
   const [products, setProducts] = useState([])

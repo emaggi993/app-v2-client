@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 // form
 import { useForm } from 'react-hook-form';
@@ -10,6 +10,8 @@ import { LoadingButton } from '@mui/lab';
 // components
 import Iconify from '../../../components/Iconify';
 import { FormProvider, RHFTextField, RHFCheckbox } from '../../../components/hook-form';
+import { getUser } from '../../../api/login.api';
+import { UserContext } from '../../../context/ContextUser';
 
 // ----------------------------------------------------------------------
 
@@ -17,16 +19,16 @@ export default function LoginForm() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
+  const {loginUser} = useContext(UserContext)
 
   const LoginSchema = Yup.object().shape({
-    email: Yup.string().email('Email must be a valid email address').required('Email is required'),
-    password: Yup.string().required('Password is required'),
+    username: Yup.string().required('Nombre de usuario es requerido'),
+    password: Yup.string().required('Contraseña es requerida'),
   });
 
   const defaultValues = {
-    email: '',
+    username: '',
     password: '',
-    remember: true,
   };
 
   const methods = useForm({
@@ -39,18 +41,30 @@ export default function LoginForm() {
     formState: { isSubmitting },
   } = methods;
 
-  const onSubmit = async () => {
-    navigate('/dashboard', { replace: true });
+  const onSubmit = async (d) => {
+    const user= d
+    console.log(user)
+    const {status, data} = await getUser(user)
+    console.log(status, data)
+    if (status === 200){
+      loginUser(data)
+      alert(JSON.stringify(data))
+      
+      
+    }else{
+      alert("usuario o contraseña invalida")
+    }
+    navigate('/dashboard/products', { replace: true });
   };
 
   return (
     <FormProvider methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <Stack spacing={3}>
-        <RHFTextField name="email" label="Email address" />
+      <Stack spacing={3} sx={{my: 2}}>
+        <RHFTextField name="username" label="Usuario" />
 
         <RHFTextField
           name="password"
-          label="Password"
+          label="Contraseña"
           type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
@@ -64,12 +78,7 @@ export default function LoginForm() {
         />
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" sx={{ my: 2 }}>
-        <RHFCheckbox name="remember" label="Remember me" />
-        <Link variant="subtitle2" underline="hover">
-          Forgot password?
-        </Link>
-      </Stack>
+      
 
       <LoadingButton fullWidth size="large" type="submit" variant="contained" loading={isSubmitting}>
         Login

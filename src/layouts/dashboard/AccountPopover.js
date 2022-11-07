@@ -1,5 +1,5 @@
 import { useRef, useState, useContext } from 'react';
-import { Link as RouterLink } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 // @mui
 import { alpha } from '@mui/material/styles';
 import { Box, Divider, Typography, Stack, MenuItem, Avatar, IconButton } from '@mui/material';
@@ -33,9 +33,10 @@ const MENU_OPTIONS = [
 // ----------------------------------------------------------------------
 
 export default function AccountPopover() {
-  const { user } =  useContext(UserContext)
+  
+  const { user, logoutUser } =  useContext(UserContext)
   const anchorRef = useRef(null);
-
+  const navigate = useNavigate()
   const [open, setOpen] = useState(null);
 
   const handleOpen = (event) => {
@@ -44,6 +45,8 @@ export default function AccountPopover() {
 
   const handleClose = () => {
     setOpen(null);
+    logoutUser();
+    navigate("/", { replace: true })
   };
 
   return (
